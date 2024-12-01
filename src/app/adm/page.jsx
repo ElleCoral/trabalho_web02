@@ -1,10 +1,19 @@
 "use client";
 
-import Link from "next/link";
-import { LogIn } from "lucide-react";
+import { logout } from "@/service/api";
+import { LogOut } from "lucide-react";
 import "./style.css";
 
 const Sidebar = () => {
+  async function handleLogout() {
+    try {
+      await logout();
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+    }
+  }
+
   return (
     <div className="container">
       <div className="titulo">
@@ -34,9 +43,7 @@ const Sidebar = () => {
           </li>
         </ul>
         <div className="login-icon">
-          <Link href="/login">
-            <LogIn size={30} color="#efefef" />
-          </Link>
+          <LogOut size={30} color="#efefef" onClick={handleLogout} />
         </div>
       </div>
     </div>
@@ -44,4 +51,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-
