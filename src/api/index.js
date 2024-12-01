@@ -7,14 +7,16 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 
 const routes = require("./routes");
+const criarBanco = require("./criarBanco");
 
 const hostname = "127.0.0.1";
 const port = 8080;
 
 mongoose.connect("mongodb://127.0.0.1:27017");
 
-mongoose.connection.on("connected", () => {
+mongoose.connection.on("connected", async () => {
   console.log("MongoDB conectado");
+  await criarBanco();
 });
 
 mongoose.connection.on("error", (err) => {
