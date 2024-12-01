@@ -1,8 +1,7 @@
-
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
@@ -10,18 +9,17 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const routes = require("./routes");
 
 const hostname = "127.0.0.1";
-const port = 27017;
+const port = 8080;
 
-mongoose.connect('mongodb://127.0.0.1:27017')
+mongoose.connect("mongodb://127.0.0.1:27017");
 
-
-mongoose.connection.on('connected', () => {
-  console.log('MongoDB conectado');
+mongoose.connection.on("connected", () => {
+  console.log("MongoDB conectado");
 });
 
-mongoose.connection.on('error', (err) => {
-  console.error('Erro na conexão com o MongoDB: ', err)
-})
+mongoose.connection.on("error", (err) => {
+  console.error("Erro na conexão com o MongoDB: ", err);
+});
 
 const options = {
   definition: {
@@ -48,28 +46,25 @@ const options = {
       },
     ],
   },
-  apis: ["./src/routes/*.js"], 
+  apis: ["./src/routes/*.js"],
 };
 
 const specs = swaggerJsDoc(options);
 
-app.use(cors());
+// Configuração do CORS com opções (opcional)
+app.use(
+  cors({
+    origin: "*", // Pode ser substituído por uma lista de origens específicas
+    methods: "GET, POST, PUT, DELETE",
+    allowedHeaders: "Content-Type, Authorization",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
-
 app.use("/", routes);
-
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
 
-app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "content-type");
-  res.setHeader("Content-Type", "application/json");
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
-});
-
-app.listen(port, function () {
+app.listen(port, () => {
   console.log(`Server running at http://${hostname}:${port}`);
 });
