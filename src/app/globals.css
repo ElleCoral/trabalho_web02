@@ -2,10 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+:root {
+  --background: #efefef;
+  --secondary: #efefef;
+  --foreground: #333333;
+  --highlight: #133e5e;
+  --highlight-dark: #0f3755;
+  --gray: #f5f5f5;
+  --gray-dark: #ccc;
+}
 
 body {
-  font-family: 'Roboto', sans-serif;
-  color: #333333;
-  background: #efefef;
+  font-family: "Roboto", sans-serif;
+  color: var(--foreground);
+  background: var(--background);
 }
